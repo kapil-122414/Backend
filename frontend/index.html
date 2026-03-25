@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Auth UI</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <div class="toggle">
+          <button onclick="login()">Login</button>
+          <button onclick="register()">Register</button>
+          <div id="slider"></div>
+        </div>
+
+        <!-- Login -->
+        <form id="loginForm" class="form">
+          <h2>Welcome Back 👋</h2>
+          <input type="email" id="logemail" placeholder="Email" required />
+          <input type="password" id="logpassword" placeholder="Password" required />
+          <button type="submit" >Login</button>
+        </form>
+
+        <!-- Register -->
+        <form id="registerForm" class="form hidden">
+          <h2>Create Account 🚀</h2>
+          <input type="email" id="regemail" placeholder="Email" required />
+          <input
+            type="password"
+            id="regpassword"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

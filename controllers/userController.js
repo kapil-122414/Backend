@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const usermodel = require("../Models/usermodel");
 const jwt = require("jsonwebtoken");
+
 router.post("/register", async (req, res) => {
   try {
     const { Email, Password } = req.body;
@@ -25,7 +26,6 @@ router.post("/register", async (req, res) => {
       Password: hashedPassword,
     });
 
-    console.log(newuser);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
     res.status(500).json("");
@@ -37,24 +37,37 @@ router.post("/login", async (req, res) => {
     const { Email, Password } = req.body;
     const Emailfind = await usermodel.findOne({ Email });
     if (!Emailfind) {
-      res.status(400).json({ message: "email not regiser" });
+      return res.status(400).json({ message: "email not regiser" });
     }
+
     const Passwordcheck = await bcrypt.compare(Password, Emailfind.Password);
 
-    console.log(Emailfind.Password);
     if (!Passwordcheck) {
-      json.status(300).json({ message: "enter correct password" });
+      return res.status(400).json({ message: "enter correct password" });
     }
 
-    const jwt=jwt.sign({
+    const Token = jwt.sign(
+      {
+        Email: Email,
+      },
+      "secretkey",
+      { expiresIn: "1h" },
+    );
+    //cookie me store karo
+    res.cookie("token", Token, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 60 * 60 * 1000,
+    });
 
-    },
-  'secretkey',
-{ExpiresIn:"1h"})
-    res.status(200).json({ message: "login successfly" });
+    res.status(200).json({ message: "login successfly", token: Token });
   } catch (error) {
     res.status(500).json({ message: "not login try error" });
   }
 });
 
+router.get("/admin", (req, res) => {
+  const tokens = req.cookies.token;
+  console.log(tokens);
+});
 module.exports = router;
