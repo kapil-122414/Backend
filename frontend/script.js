@@ -44,26 +44,25 @@ registerForm.addEventListener("submit", async function (e) {
   }
 });
 
-
-//login from 
+//login from
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener("submit", async function (e) {
   e.preventDefault(); // ❗ page reload rokega
-
+  console.log("login");
   const logemail = document.getElementById("logemail").value;
   const logpassword = document.getElementById("logpassword").value;
 
   try {
-    const res = await fetch("http://localhost:2000/api/login", {
+    const res = await fetch("http://127.0.0.1:2000/api/login", {
       method: "POST",
-      
+
       headers: {
         "Content-Type": "application/json",
       },
-        credentials: "include",
+      credentials: "include",
       body: JSON.stringify({
-        Email:logemail,
+        Email: logemail,
         Password: logpassword,
       }),
     });
@@ -71,7 +70,7 @@ loginForm.addEventListener("submit", async function (e) {
     const data = await res.json();
 
     if (res.ok) {
-      alert(data.message);
+      window.location.href = "./profile.html";
     } else {
       alert(data.message || "Error ❌");
     }
@@ -81,5 +80,4 @@ loginForm.addEventListener("submit", async function (e) {
   }
 });
 
-
-
+//get

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const usermodel = require("../Models/usermodel");
+
 const jwt = require("jsonwebtoken");
 
 router.post("/register", async (req, res) => {
@@ -22,13 +23,14 @@ router.post("/register", async (req, res) => {
 
     const newuser = await usermodel.create({
       Email: Email,
-
+    
       Password: hashedPassword,
     });
 
+    console.log(newuser);
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(500).json("");
+    res.status(500).json({ message: "not register" });
   }
 });
 
@@ -51,13 +53,16 @@ router.post("/login", async (req, res) => {
         Email: Email,
       },
       "secretkey",
-      { expiresIn: "1h" },
+      { expiresIn: "1m" },
     );
+
     //cookie me store karo
     res.cookie("token", Token, {
       httpOnly: true,
       secure: false,
       maxAge: 60 * 60 * 1000,
+      sameSite: "lax",
+      path: "/",
     });
 
     res.status(200).json({ message: "login successfly", token: Token });
@@ -66,8 +71,26 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/admin", (req, res) => {
+router.get("/profile", (req, res) => {
   const tokens = req.cookies.token;
-  console.log(tokens);
+
+  if (!tokens) {
+    return res.status(400).json("token not valid");
+  }
+  try {
+    const decoded = jwt.verify(tokens, "secretkey");
+
+    if (decoded.role === "user") {
+      res.json({
+        message: "Profile fetched successfully",
+        user: {
+          Email: decoded.Email,
+        },
+      });
+    }
+  } catch (error) {
+    res.status(401).json({ message: "Invalid token" });
+  }
 });
+
 module.exports = router;

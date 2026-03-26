@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Profile</title>
+    <style>
+      body {
+        font-family: Arial;
+        background: #0f172a;
+        color: white;
+        text-align: center;
+        margin-top: 100px;
+      }
+      .card {
+        background: #1e293b;
+        padding: 20px;
+        border-radius: 10px;
+        display: inline-block;
+      }
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        border: none;
+        background: #38bdf8;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h2>Profile Page</h2>
+      <button onclick="getProfile()">Get Profile</button>
+      <div id="data"></div>
+    </div>
+
+    <script>
+      async function getProfile() {
+        try {
+          const res = await fetch("http://127.0.0.1:2000/api/profile", {
+            method: "GET",
+            credentials: "include", // 🔥 MOST IMPORTANT (cookie send karega)
+          });
+
+          const data = await res.json();
+          console.log(data);
+
+          if (!res.ok) {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          alert("Please login first");
+          window.location.href = "index.html";
+        }
+      }
+
+      // 🔥 page load hote hi call ho
+      window.onload = getProfile;
+    </script>
+  </body>
+</html>
