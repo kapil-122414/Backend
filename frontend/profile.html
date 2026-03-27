@@ -28,7 +28,7 @@
   </head>
   <body>
     <div class="card">
-      <h2>Profile Page</h2>
+      <h2>user page</h2>
       <button onclick="getProfile()">Get Profile</button>
       <div id="data"></div>
     </div>
@@ -42,7 +42,7 @@
           });
 
           const data = await res.json();
-          console.log(data);
+          console.log("hyy");
 
           if (!res.ok) {
             throw new Error(data.message);

@@ -49,7 +49,7 @@ const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener("submit", async function (e) {
   e.preventDefault(); // ❗ page reload rokega
-  console.log("login");
+ 
   const logemail = document.getElementById("logemail").value;
   const logpassword = document.getElementById("logpassword").value;
 
@@ -69,9 +69,18 @@ loginForm.addEventListener("submit", async function (e) {
 
     const data = await res.json();
 
-    if (res.ok) {
+   
+
+    if (data.Role==="user") {
+      alert(data.message);
       window.location.href = "./profile.html";
-    } else {
+    }
+   if(data.Role==="admin") {
+      alert(data.message)
+        window.location.href='./adminpage.html';
+      
+    }
+      else {
       alert(data.message || "Error ❌");
     }
   } catch (error) {

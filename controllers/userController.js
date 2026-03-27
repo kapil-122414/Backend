@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
 
     const newuser = await usermodel.create({
       Email: Email,
-    
+
       Password: hashedPassword,
     });
 
@@ -37,7 +37,8 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { Email, Password } = req.body;
-    const Emailfind = await usermodel.findOne({ Email });
+    const Emailfind = await usermodel.findOne({ Email: Email });
+
     if (!Emailfind) {
       return res.status(400).json({ message: "email not regiser" });
     }
@@ -48,6 +49,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "enter correct password" });
     }
 
+    const Role = Emailfind.Role;
     const Token = jwt.sign(
       {
         Email: Email,
@@ -64,12 +66,21 @@ router.post("/login", async (req, res) => {
       sameSite: "lax",
       path: "/",
     });
-
-    res.status(200).json({ message: "login successfly", token: Token });
+    if (Role === "user") {
+      return res
+        .status(200)
+        .json({ message: "login successfly", token: Token, Role: Role });
+    }
+    if (Role === "admin") {
+      return res
+        .status(200)
+        .json({ message: "login successfly", token: Token, Role: Role });
+    }
   } catch (error) {
     res.status(500).json({ message: "not login try error" });
   }
 });
+//token routes
 
 router.get("/profile", (req, res) => {
   const tokens = req.cookies.token;
@@ -77,20 +88,25 @@ router.get("/profile", (req, res) => {
   if (!tokens) {
     return res.status(400).json("token not valid");
   }
+
   try {
     const decoded = jwt.verify(tokens, "secretkey");
 
-    if (decoded.role === "user") {
-      res.json({
-        message: "Profile fetched successfully",
-        user: {
-          Email: decoded.Email,
-        },
-      });
-    }
+    res.json({
+      message: "Profile fetched successfully",
+      user: {
+        Email: decoded.Email,
+      },
+    });
   } catch (error) {
     res.status(401).json({ message: "Invalid token" });
   }
 });
+//user router
+router.get("/user", (req, res) => {
+  const token = req.cookies.token;
 
+  const findrole = usermodel.find();
+  console.log(findrole);
+});
 module.exports = router;

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Panel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        display: flex;
+        height: 100vh;
+        background: #f4f6f9;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 220px;
+        background: #1e293b;
+        color: #fff;
+        padding: 20px;
+      }
+
+      .sidebar h2 {
+        margin-bottom: 30px;
+      }
+
+      .sidebar ul {
+        list-style: none;
+      }
+
+      .sidebar ul li {
+        padding: 12px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 6px;
+      }
+
+      .sidebar ul li:hover {
+        background: #334155;
+      }
+
+      /* Main */
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+
+      /* Navbar */
+      .navbar {
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Cards */
+      .cards {
+        display: flex;
+        gap: 20px;
+      }
+
+      .card {
+        flex: 1;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h3 {
+        margin-bottom: 10px;
+        color: #555;
+      }
+
+      .card p {
+        font-size: 24px;
+        font-weight: bold;
+        color: #111;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h2>Admin</h2>
+      <ul>
+        <li>Dashboard</li>
+        <li>Users</li>
+        <li>Settings</li>
+        <li>Logout</li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <!-- Navbar -->
+      <div class="navbar">
+        <h2>Dashboard</h2>
+      </div>
+
+      <!-- Cards -->
+      <div class="cards">
+        <div class="card">
+          <h3>Total Users</h3>
+          <p>120</p>
+        </div>
+
+        <div class="card">
+          <h3>Active Users</h3>
+          <p>80</p>
+        </div>
+
+        <div class="card">
+          <h3>Admins</h3>
+          <p>5</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
